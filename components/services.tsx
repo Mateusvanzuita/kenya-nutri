@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { 
   Video, MapPin, Users, Dumbbell, Check, 
   ArrowRight, Utensils, BookOpen, MessageCircle, CreditCard,
-  Leaf, X, Image as ImageIcon
+  Leaf, X, ImageIcon, ChevronLeft, ChevronRight
 } from 'lucide-react'
 
 export default function Services() {
@@ -13,13 +13,26 @@ export default function Services() {
   const sectionRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [showBoraSecar, setShowBoraSecar] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const carouselRef = useRef<HTMLDivElement>(null)
 
   const projectPhotos = [
     { url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format', alt: 'Resultado 1' },
-    { url: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&auto=format', alt: 'Resultado 2' },
+    { url: 'https://images.unsplash.com/photo-1544367567463-d25dfeac3438?w=500&auto=format', alt: 'Resultado 2' },
     { url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&auto=format', alt: 'Resultado 3' },
     { url: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format', alt: 'Resultado 4' },
   ]
+
+  const dietPhotos = [
+    { url: 'https://i.imgur.com/HI5pcGu.jpeg', alt: 'Comida saudável' },
+    { url: 'https://i.imgur.com/P0VPROL.jpeg', alt: 'Refeição balanceada' },
+    { url: 'https://i.imgur.com/PiZL0Bi.jpeg', alt: 'Preparações saborosas' },
+    { url: 'https://i.imgur.com/gpbzXBn.jpeg', alt: 'Comida de verdade' },
+    { url: 'https://i.imgur.com/NYmYBiO.jpeg', alt: 'Refeições práticas' },
+    { url: 'https://i.imgur.com/KP6Ln6W.jpeg', alt: 'Pratos variados' },
+  ]
+
+  const maxSlide = dietPhotos.length - 3 // Mostra 3 fotos por vez
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,6 +50,31 @@ export default function Services() {
 
     return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => {
+        if (prev >= maxSlide) return 0
+        return prev + 1
+      })
+    }, 3500) // Muda a cada 3.5 segundos (lento)
+
+    return () => clearInterval(interval)
+  }, [maxSlide])
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => {
+      if (prev >= maxSlide) return 0
+      return prev + 1
+    })
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => {
+      if (prev <= 0) return maxSlide
+      return prev - 1
+    })
+  }
 
   const mainServices = [
     {
@@ -92,16 +130,6 @@ export default function Services() {
   ]
 
   const extras = [
-    {
-      title: 'Dieta Personalizada',
-      icon: Utensils,
-      description: 'Plano baseado no seu objetivo e rotina, com foco em uma boa relação com a comida, sem restrições extremas.',
-    },
-    {
-      title: 'E-book de Receitas',
-      icon: BookOpen,
-      description: 'Acesso exclusivo a receitas criativas e opções de substituição para garantir variedade na sua dieta.',
-    },
     {
       title: 'Suporte Ativo',
       icon: MessageCircle,
@@ -210,8 +238,177 @@ export default function Services() {
           </div>
         </div>
 
+        {/* SEÇÃO INTERATIVA - DIETA PERSONALIZADA */}
+        <div className={`mt-16 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="bg-gradient-to-br from-[#7F3240]/5 via-white to-[#7F3240]/5 rounded-3xl p-8 md:p-10 border border-[#7F3240]/10 shadow-lg">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-[#7F3240]/10 rounded-full flex items-center justify-center">
+                <Utensils className="w-7 h-7 text-[#7F3240]" />
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900">Dieta Personalizada</h3>
+                <p className="text-sm text-[#7F3240] font-semibold">Incluída em todos os planos</p>
+              </div>
+            </div>
+            
+            <p className="text-lg text-gray-700 leading-relaxed mb-8 font-medium">
+              Estratégias com comida de verdade e preparações saborosas que se encaixam na rotina e tragam resultados duradouros.
+            </p>
+
+            {/* Carrossel de Fotos - Múltiplos Cards */}
+            <div className="relative mb-6 group/carousel">
+              <div className="overflow-hidden rounded-2xl">
+                <div 
+                  className="flex gap-4 transition-transform duration-700 ease-out"
+                  style={{ transform: `translateX(-${currentSlide * (100 / 3 + 4 / 3)}%)` }}
+                >
+                  {dietPhotos.map((photo, index) => (
+                    <div 
+                      key={index} 
+                      className="flex-shrink-0 w-[calc(33.333%-11px)] group/card"
+                    >
+                      <div className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg group-hover/card:shadow-2xl transition-all duration-300">
+                        <img 
+                          src={photo.url || "/placeholder.svg"} 
+                          alt={photo.alt}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4">
+                          <p className="text-white text-sm md:text-base font-bold drop-shadow-lg">{photo.alt}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Botões de Navegação */}
+              <button
+                onClick={prevSlide}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 hover:bg-white rounded-full flex items-center justify-center shadow-xl transition-all hover:scale-110 z-10"
+                aria-label="Foto anterior"
+              >
+                <ChevronLeft className="w-5 h-5 text-[#7F3240]" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/95 hover:bg-white rounded-full flex items-center justify-center shadow-xl transition-all hover:scale-110 z-10"
+                aria-label="Próxima foto"
+              >
+                <ChevronRight className="w-5 h-5 text-[#7F3240]" />
+              </button>
+
+              {/* Indicadores de Posição */}
+              <div className="flex justify-center gap-2 mt-6">
+                {[...Array(maxSlide + 1)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`transition-all ${
+                      index === currentSlide 
+                        ? 'w-8 h-2 bg-[#7F3240]' 
+                        : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'
+                    } rounded-full`}
+                    aria-label={`Ir para grupo ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100">
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#7F3240] mt-1 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm mb-1">Comida de Verdade</h4>
+                  <p className="text-xs text-gray-600">Sem substitutos ou shakes milagrosos</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#7F3240] mt-1 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm mb-1">Encaixa na Rotina</h4>
+                  <p className="text-xs text-gray-600">Planejamento adaptado ao seu dia a dia</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#7F3240] mt-1 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm mb-1">Resultados Duradouros</h4>
+                  <p className="text-xs text-gray-600">Mudança real de hábitos alimentares</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SEÇÃO INTERATIVA - E-BOOK DE RECEITAS */}
+        <div className={`mt-8 transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="relative group overflow-hidden rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 border-2 border-amber-100 shadow-lg hover:shadow-2xl transition-all duration-500">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#7F3240]/10 to-transparent rounded-full blur-3xl" />
+            <div className="relative p-8 md:p-10 flex flex-col md:flex-row items-center gap-8">
+              <div className="flex-shrink-0">
+                <div className="relative">
+                  <div className="w-32 h-32 bg-gradient-to-br from-[#7F3240] to-[#b04556] rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform duration-500">
+                    <BookOpen className="w-16 h-16 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 bg-amber-400 text-gray-900 font-black text-xs px-3 py-1 rounded-full shadow-lg animate-pulse">
+                    NOVO
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-1 text-center md:text-left space-y-4">
+                <div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">E-book de Receitas Exclusivas</h3>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Mais de 50 receitas criativas e opções de substituição para garantir variedade e sabor na sua dieta.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <div className="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-amber-200">
+                    <Check className="w-4 h-4 text-[#7F3240]" />
+                    <span className="text-sm font-semibold text-gray-700">Receitas práticas</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-amber-200">
+                    <Check className="w-4 h-4 text-[#7F3240]" />
+                    <span className="text-sm font-semibold text-gray-700">Lista de ingredientes</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/80 px-4 py-2 rounded-full border border-amber-200">
+                    <Check className="w-4 h-4 text-[#7F3240]" />
+                    <span className="text-sm font-semibold text-gray-700">Opções de substituição</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-shrink-0 text-center space-y-4">
+                <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#7F3240]">
+                  <div className="text-sm text-gray-500 line-through mb-1">R$ 79,90</div>
+                  <div className="text-4xl font-black text-[#7F3240] mb-1">R$ 49,90</div>
+                  <div className="text-xs text-gray-600 font-semibold">Pode ser adquirido separadamente</div>
+                </div>
+                <Button
+                  className="w-full bg-gradient-to-r from-[#7F3240] to-[#b04556] hover:from-[#6B2A34] hover:to-[#9a3a49] text-white font-bold py-6 px-8 rounded-xl transition-all shadow-lg group/btn"
+                  asChild
+                >
+                  <a 
+                    href={`https://wa.me/${basePhone}?text=${encodeURIComponent('Olá, Kenya! Gostaria de adquirir o E-book de Receitas Exclusivas por R$ 49,90.')}`}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    Quero o E-book
+                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Diferenciais/Extras Section */}
-        <div className={`grid md:grid-cols-2 lg:grid-cols-4 gap-8 pt-12 mt-12 border-t border-gray-200 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`grid md:grid-cols-2 gap-8 pt-12 mt-12 border-t border-gray-200 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
           {extras.map((item) => (
             <div key={item.title} className="flex gap-4">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-background shadow-sm border border-gray-100 flex items-center justify-center">
@@ -280,7 +477,7 @@ export default function Services() {
                   {projectPhotos.map((photo, index) => (
                     <div key={index} className="group relative aspect-[3/4] rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm">
                       <img 
-                        src={photo.url} 
+                        src={photo.url || "/placeholder.svg"} 
                         alt={photo.alt}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
