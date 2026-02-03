@@ -393,7 +393,7 @@ export default function Services() {
                   asChild
                 >
                   <a 
-                    href={`https://wa.me/${basePhone}?text=${encodeURIComponent('Olá, Kenya! Gostaria de adquirir o E-book de Receitas Exclusivas por R$ 49,90.')}`}
+                    href="https://chk.eduzz.com/39ZB1D6Z9E"
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
