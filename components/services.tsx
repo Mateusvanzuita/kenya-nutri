@@ -241,34 +241,6 @@ export default function Services() {
           ))}
         </div>
 
-        {/* PROJETO BORA SECAR 21 - NOVO CARD DE DESTAQUE */}
-        <div className={`mt-16 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="relative group max-w-4xl mx-auto">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#7F3240] to-[#b04556] rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-500"></div>
-            <div className="relative p-6 md:p-8 bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-6">
-              <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#7F3240] to-[#b04556] rounded-2xl flex items-center justify-center shadow-lg shadow-[#7F3240]/20">
-                <Leaf className="w-8 h-8 text-white" />
-              </div>
-              <div className="flex-1 text-center md:text-left space-y-2">
-                <div className="flex flex-col md:flex-row items-center gap-2">
-                  <h4 className="text-gray-900 font-black text-2xl uppercase tracking-tighter">Projeto Bora Secar 21</h4>
-                  <span className="bg-[#7F3240]/10 text-[#7F3240] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Turmas Limitadas</span>
-                </div>
-                <p className="text-sm text-gray-600 leading-relaxed max-w-xl">
-                  Em 2025, idealizei um projeto exclusivo de emagrecimento para mulheres que já transformou a vida de muitas delas.
-                </p>
-              </div>
-              <Button 
-                onClick={() => setShowBoraSecar(true)}
-                className="w-full md:w-auto bg-[#7F3240] hover:bg-[#6a2935] text-white font-bold py-6 px-8 rounded-xl transition-all shadow-md group/btn"
-              >
-                SAIBA MAIS SOBRE O PROJETO
-                <ArrowRight className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-              </Button>
-            </div>
-          </div>
-        </div>
-
         {/* SEÇÃO INTERATIVA - DIETA PERSONALIZADA */}
         <div className={`mt-16 transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="bg-gradient-to-br from-[#7F3240]/5 via-white to-[#7F3240]/5 rounded-3xl p-8 md:p-10 border border-[#7F3240]/10 shadow-lg">
@@ -372,6 +344,34 @@ export default function Services() {
                   <p className="text-xs text-gray-600">Mudança real de hábitos alimentares</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* PROJETO BORA SECAR 21 - NOVO CARD DE DESTAQUE */}
+        <div className={`mt-16 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="relative group max-w-4xl mx-auto">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#7F3240] to-[#b04556] rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-500"></div>
+            <div className="relative p-6 md:p-8 bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#7F3240] to-[#b04556] rounded-2xl flex items-center justify-center shadow-lg shadow-[#7F3240]/20">
+                <Leaf className="w-8 h-8 text-white" />
+              </div>
+              <div className="flex-1 text-center md:text-left space-y-2">
+                <div className="flex flex-col md:flex-row items-center gap-2">
+                  <h4 className="text-gray-900 font-black text-2xl uppercase tracking-tighter">Projeto Bora Secar 21</h4>
+                  <span className="bg-[#7F3240]/10 text-[#7F3240] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Turmas Limitadas</span>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed max-w-xl">
+                  Em 2025, idealizei um projeto exclusivo de emagrecimento para mulheres que já transformou a vida de muitas delas.
+                </p>
+              </div>
+              <Button 
+                onClick={() => setShowBoraSecar(true)}
+                className="w-full md:w-auto bg-[#7F3240] hover:bg-[#6a2935] text-white font-bold py-6 px-8 rounded-xl transition-all shadow-md group/btn"
+              >
+                SAIBA MAIS SOBRE O PROJETO
+                <ArrowRight className="ml-2 w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </div>
         </div>
