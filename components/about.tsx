@@ -75,7 +75,7 @@ export default function About() {
                   Atualmente estou cursando <strong className="text-[#7F3240]">Educação Física</strong>, com o objetivo de oferecer ainda mais suporte completo aos meus pacientes.
                 </p>
                 <p>
-                  Além da nutrição, sou empresária no ramo de <strong className="text-[#7F3240]">alimentação saudável há</strong> mais de 8 anos, com uma loja de produtos naturais.
+                  Além da nutrição, sou empresária no ramo de <strong className="text-[#7F3240]">alimentação saudável</strong> há mais de 8 anos, com uma loja de produtos naturais.
                 </p>
               </div>
             </div>

@@ -152,7 +152,7 @@ export default function Services() {
     {
       title: 'Pagamento Facilitado',
       icon: CreditCard,
-      description: 'Aceitamos Pix, Dinheiro e Cartão de Crédito (com opção de parcelamento).',
+      description: 'Aceitamos Pix, Dinheiro e Cartão de Crédito (Com opção de parcelamento com juros da operadora).',
     },
   ]
 
@@ -404,7 +404,6 @@ export default function Services() {
                   <div className="text-sm text-gray-500 line-through mb-1">R$ 69,90</div>
                   <div className="text-4xl font-black text-[#7F3240] mb-1">R$ 49,90</div>
                   <div className="text-xs text-gray-600 font-semibold mb-2">Pode ser adquirido separadamente</div>
-                  <div className="text-xs text-gray-500 leading-relaxed">Opção de parcelamento com juros da operadora</div>
                 </div>
 
                 {/* Cupom de Desconto */}
