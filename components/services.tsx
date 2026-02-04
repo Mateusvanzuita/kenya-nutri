@@ -14,6 +14,7 @@ export default function Services() {
   const [isVisible, setIsVisible] = useState(false)
   const [showBoraSecar, setShowBoraSecar] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [fullScreenImage, setFullScreenImage] = useState<{ url: string; alt: string } | null>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const projectPhotos = [
@@ -25,7 +26,7 @@ export default function Services() {
     { url: 'https://i.imgur.com/BepiIBc.jpeg', alt: 'Encontro presencial' },
     { url: 'https://i.imgur.com/qaOlBFl.jpeg', alt: 'Treino funcional' },
     { url: 'https://i.imgur.com/gdyLxH8.jpeg', alt: 'Participantes do projeto' },
-    { url: 'https://i.imgur.com/cOuzPfX.jpeg', alt: 'Evento especial' },
+    { url: 'https://i.imgur.com/hNRR4Gy.jpeg', alt: 'Evento especial' },
   ]
 
   const dietPhotos = [
@@ -272,7 +273,10 @@ export default function Services() {
                       key={index} 
                       className="flex-shrink-0 w-[calc(33.333%-11px)] group/card"
                     >
-                      <div className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg group-hover/card:shadow-2xl transition-all duration-300">
+                      <div 
+                        className="relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg group-hover/card:shadow-2xl transition-all duration-300 cursor-pointer"
+                        onClick={() => setFullScreenImage(photo)}
+                      >
                         <img 
                           src={photo.url || "/placeholder.svg"} 
                           alt={photo.alt}
@@ -487,6 +491,7 @@ export default function Services() {
                     <div 
                       key={index} 
                       className="group relative aspect-square rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200 hover:border-[#7F3240] shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+                      onClick={() => setFullScreenImage(photo)}
                     >
                       <img 
                         src={photo.url || "/placeholder.svg"} 
@@ -511,6 +516,30 @@ export default function Services() {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Imagem em Tamanho Real */}
+      {fullScreenImage && (
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-300" 
+          onClick={() => setFullScreenImage(null)}
+        >
+          <button
+            onClick={() => setFullScreenImage(null)}
+            className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors backdrop-blur-sm"
+            aria-label="Fechar"
+          >
+            <X size={24} />
+          </button>
+          
+          <div className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={fullScreenImage.url || "/placeholder.svg"} 
+              alt={fullScreenImage.alt}
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            />
           </div>
         </div>
       )}
