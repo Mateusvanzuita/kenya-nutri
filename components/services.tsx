@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { 
   Video, MapPin, Users, Dumbbell, Check, 
   ArrowRight, Utensils, BookOpen, MessageCircle, CreditCard,
-  Leaf, X, ImageIcon, ChevronLeft, ChevronRight
+  Leaf, X, ImageIcon, ChevronLeft, ChevronRight, Copy, CheckCheck
 } from 'lucide-react'
 
 export default function Services() {
@@ -15,6 +15,7 @@ export default function Services() {
   const [showBoraSecar, setShowBoraSecar] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [fullScreenImage, setFullScreenImage] = useState<{ url: string; alt: string } | null>(null)
+  const [couponCopied, setCouponCopied] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const projectPhotos = [
@@ -82,6 +83,12 @@ export default function Services() {
     })
   }
 
+  const copyCoupon = () => {
+    navigator.clipboard.writeText('EBOOKDANUTRI')
+    setCouponCopied(true)
+    setTimeout(() => setCouponCopied(false), 2000)
+  }
+
   const mainServices = [
     {
       title: 'Consultoria Online',
@@ -98,11 +105,11 @@ export default function Services() {
     },
     {
       title: 'Atendimento Presencial',
-      price: 'R$ 280,00',
+      price: 'R$ 300,00',
       icon: MapPin,
       features: [
         'Consulta presencial (São José - SC)',
-        'Avaliação física (Medidas, % Gordura, % Massa)',
+        'Avaliação física completa',
         'Plano alimentar individualizado',
         'Acompanhamento de 2 meses',
       ],
@@ -113,23 +120,24 @@ export default function Services() {
       price: 'R$ 500,00',
       icon: Users,
       features: [
-        'Consulta conjunta no mesmo dia',
+        'Consulta conjunta',
         'Avaliação física completa para ambos',
-        'Plano alimentar individual para cada um',
+        'Plano alimentar individual',
         'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre o Plano Casal.',
     },
     {
       title: 'Dieta + Treino',
-      price: 'R$ 400,00',
+      price: 'R$ 450,00',
       icon: Dumbbell,
       highlight: 'Completo',
       features: [
         'Consulta presencial e avaliação física',
         'Plano alimentar personalizado',
-        '2 treinos no período com personal',
-        'Suporte integrado e acompanhamento',
+        '2 planilhas de treino',
+        'Suporte com personal',
+        'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre o Plano Dieta + Treino.',
     },
@@ -156,7 +164,7 @@ export default function Services() {
           <span className="inline-block text-[#7F3240] font-semibold text-sm uppercase tracking-wider">Modalidades</span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">Como Posso Te Ajudar?</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Escolha o acompanhamento ideal para transformar seus resultados
+            Escolha o acompanhamento ideal para alcançar seus resultados
           </p>
         </div>
 
@@ -393,10 +401,36 @@ export default function Services() {
 
               <div className="flex-shrink-0 text-center space-y-4">
                 <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-[#7F3240]">
-                  <div className="text-sm text-gray-500 line-through mb-1">R$ 79,90</div>
+                  <div className="text-sm text-gray-500 line-through mb-1">R$ 69,90</div>
                   <div className="text-4xl font-black text-[#7F3240] mb-1">R$ 49,90</div>
-                  <div className="text-xs text-gray-600 font-semibold">Pode ser adquirido separadamente</div>
+                  <div className="text-xs text-gray-600 font-semibold mb-2">Pode ser adquirido separadamente</div>
+                  <div className="text-xs text-gray-500 leading-relaxed">Opção de parcelamento com juros da operadora</div>
                 </div>
+
+                {/* Cupom de Desconto */}
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-dashed border-amber-300 rounded-xl p-4 space-y-2">
+                  <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Cupom de Desconto</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-white px-4 py-2 rounded-lg border border-amber-200">
+                      <p className="text-lg font-black text-[#7F3240] tracking-wider">EBOOKDANUTRI</p>
+                    </div>
+                    <button
+                      onClick={copyCoupon}
+                      className="p-2 bg-[#7F3240] hover:bg-[#6B2A34] text-white rounded-lg transition-all hover:scale-105 active:scale-95"
+                      aria-label="Copiar cupom"
+                    >
+                      {couponCopied ? (
+                        <CheckCheck className="w-5 h-5" />
+                      ) : (
+                        <Copy className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                  {couponCopied && (
+                    <p className="text-xs text-green-600 font-semibold">Cupom copiado!</p>
+                  )}
+                </div>
+
                 <Button
                   className="w-full bg-gradient-to-r from-[#7F3240] to-[#b04556] hover:from-[#6B2A34] hover:to-[#9a3a49] text-white font-bold py-6 px-8 rounded-xl transition-all shadow-lg group/btn"
                   asChild
@@ -459,9 +493,9 @@ export default function Services() {
                 <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                   <h4 className="font-bold text-[#7F3240] mb-4">O que inclui:</h4>
                   <ul className="space-y-3 text-sm text-gray-700 font-medium">
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Plano alimentar personalizado</li>
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Aulões de funcional</li>
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Coquetel saudável</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Plano alimentar sugestivo</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Planilhas de treinos</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Encontros presenciais</li>
                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> E-book de receitas exclusivas</li>
                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Grupo de suporte exclusivo</li>
                   </ul>
@@ -540,6 +574,9 @@ export default function Services() {
               alt={fullScreenImage.alt}
               className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
             />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 rounded-b-lg">
+              <p className="text-white text-xl md:text-2xl font-bold drop-shadow-lg text-center">{fullScreenImage.alt}</p>
+            </div>
           </div>
         </div>
       )}

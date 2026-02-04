@@ -42,8 +42,7 @@ export default function Hero() {
 
 
               <p className="text-base md:text-lg text-white/80 max-w-lg" style={{ color: "#FFFAEC" }}>
-                Consultoria nutricional especializada em nutrição esportiva,
-                emagrecimento e estilo de vida saudável.
+                Consultoria nutricional especializada em nutrição esportiva, emagrecimento e estilo de vida saudável sem extremismos.
               </p>
             </div>
 
