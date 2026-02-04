@@ -224,8 +224,25 @@ export default function Services() {
           })}
         </div>
 
+      
+
+              {/* Diferenciais/Extras Section */}
+        <div className={`grid md:grid-cols-2 gap-8 pt-12 mt-12 border-t border-gray-200 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          {extras.map((item) => (
+            <div key={item.title} className="flex gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-background shadow-sm border border-gray-100 flex items-center justify-center">
+                <item.icon className="w-5 h-5 text-[#7F3240]" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-gray-900 text-sm">{item.title}</h4>
+                <p className="text-xs text-gray-500 leading-relaxed">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* PROJETO BORA SECAR 21 - NOVO CARD DE DESTAQUE */}
-        <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mt-16 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="relative group max-w-4xl mx-auto">
             <div className="absolute -inset-1 bg-gradient-to-r from-[#7F3240] to-[#b04556] rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-500"></div>
             <div className="relative p-6 md:p-8 bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-6">
@@ -449,20 +466,7 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Diferenciais/Extras Section */}
-        <div className={`grid md:grid-cols-2 gap-8 pt-12 mt-12 border-t border-gray-200 transition-all duration-1000 delay-800 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          {extras.map((item) => (
-            <div key={item.title} className="flex gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-background shadow-sm border border-gray-100 flex items-center justify-center">
-                <item.icon className="w-5 h-5 text-[#7F3240]" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="font-bold text-gray-900 text-sm">{item.title}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+
       </div>
 
       {/* Modal Bora Secar 21 */}
