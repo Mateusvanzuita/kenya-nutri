@@ -17,10 +17,15 @@ export default function Services() {
   const carouselRef = useRef<HTMLDivElement>(null)
 
   const projectPhotos = [
-    { url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&auto=format', alt: 'Resultado 1' },
-    { url: 'https://images.unsplash.com/photo-1544367567463-d25dfeac3438?w=500&auto=format', alt: 'Resultado 2' },
-    { url: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&auto=format', alt: 'Resultado 3' },
-    { url: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=500&auto=format', alt: 'Resultado 4' },
+    { url: 'https://i.imgur.com/27VT5O1.jpeg', alt: 'Aulão de funcional' },
+    { url: 'https://i.imgur.com/7N0kFeL.jpeg', alt: 'Coquetel saudável' },
+    { url: 'https://i.imgur.com/uiY2cCG.jpeg', alt: 'E-book de receitas' },
+    { url: 'https://i.imgur.com/4EOTogD.jpeg', alt: 'Momento do projeto' },
+    { url: 'https://i.imgur.com/LPul5uy.jpeg', alt: 'Atividades do grupo' },
+    { url: 'https://i.imgur.com/BepiIBc.jpeg', alt: 'Encontro presencial' },
+    { url: 'https://i.imgur.com/qaOlBFl.jpeg', alt: 'Treino funcional' },
+    { url: 'https://i.imgur.com/gdyLxH8.jpeg', alt: 'Participantes do projeto' },
+    { url: 'https://i.imgur.com/cOuzPfX.jpeg', alt: 'Evento especial' },
   ]
 
   const dietPhotos = [
@@ -451,8 +456,9 @@ export default function Services() {
                   <h4 className="font-bold text-[#7F3240] mb-4">O que inclui:</h4>
                   <ul className="space-y-3 text-sm text-gray-700 font-medium">
                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Plano alimentar personalizado</li>
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Treinos específicos para emagrecimento</li>
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Acompanhamento diário</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Aulões de funcional</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Coquetel saudável</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> E-book de receitas exclusivas</li>
                     <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#7F3240]" /> Grupo de suporte exclusivo</li>
                   </ul>
                 </div>
@@ -469,18 +475,25 @@ export default function Services() {
 
               {/* GALERIA DE FOTOS */}
               <div className="space-y-4 mb-10">
-                <div className="flex items-center gap-2 mb-2">
-                  <ImageIcon className="w-5 h-5 text-[#7F3240]" />
-                  <h4 className="font-bold text-gray-900">Transformações e Resultados</h4>
+                <div className="flex items-center gap-2 mb-6">
+                  <ImageIcon className="w-6 h-6 text-[#7F3240]" />
+                  <h4 className="font-bold text-gray-900 text-xl">Fotos do Projeto</h4>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <p className="text-gray-600 mb-6 text-sm">
+                  Confira os momentos especiais do desafio: aulões de funcional, coquetéis saudáveis e muito mais!
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {projectPhotos.map((photo, index) => (
-                    <div key={index} className="group relative aspect-[3/4] rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm">
+                    <div 
+                      key={index} 
+                      className="group relative aspect-square rounded-2xl overflow-hidden bg-gray-100 border-2 border-gray-200 hover:border-[#7F3240] shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+                    >
                       <img 
                         src={photo.url || "/placeholder.svg"} 
                         alt={photo.alt}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                   ))}
                 </div>
