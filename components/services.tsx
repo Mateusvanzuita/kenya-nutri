@@ -8,6 +8,24 @@ import {
   Leaf, X, ImageIcon, ChevronLeft, ChevronRight, Copy, CheckCheck
 } from 'lucide-react'
 
+// Converte "R$ 200,00" -> 200
+function parsePrice(price: string) {
+  const numeric = price.replace(/[^\d,]/g, '').replace(',', '.')
+  return parseFloat(numeric) || 0
+}
+
+// Rótulo curto para caber no seletor de período sem espremer o texto
+function periodLabel(label: string) {
+  switch (label) {
+    case 'Trimestral':
+      return '3 meses'
+    case 'Semestral':
+      return '6 meses'
+    default:
+      return label
+  }
+}
+
 export default function Services() {
   const basePhone = '5548998046395'
   const sectionRef = useRef<HTMLElement>(null)
@@ -17,6 +35,10 @@ export default function Services() {
   const [fullScreenImage, setFullScreenImage] = useState<{ url: string; alt: string } | null>(null)
   const [couponCopied, setCouponCopied] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
+
+  // Índice do plano (Mensal/Trimestral/Semestral) selecionado por card de serviço
+  const [selectedPlanByService, setSelectedPlanByService] = useState<Record<number, number>>({})
+  const getSelectedPlanIndex = (serviceIndex: number) => selectedPlanByService[serviceIndex] ?? 0
 
   const projectPhotos = [
     { url: 'https://i.imgur.com/27VT5O1.jpeg', alt: 'Aulão de funcional' },
@@ -103,7 +125,6 @@ export default function Services() {
         'Avaliação por fotos e questionário',
         'Opção de vídeo chamada',
         'Plano alimentar personalizado',
-        'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre a Consultoria Online.',
     },
@@ -116,10 +137,9 @@ export default function Services() {
         { label: 'Semestral', price: 'R$ 160,00', suffix: '/mês', note: '2 retornos no período' },
       ],
       features: [
-        'Consulta presencial (São José - SC)',
+        'Consulta presencial',
         'Avaliação física completa',
         'Plano alimentar individualizado',
-        'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre o Atendimento Presencial.',
     },
@@ -135,7 +155,6 @@ export default function Services() {
         'Consulta conjunta',
         'Avaliação física completa para ambos',
         'Plano alimentar individual',
-        'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre o Plano Casal.',
     },
@@ -151,9 +170,8 @@ export default function Services() {
       features: [
         'Consulta presencial e avaliação física',
         'Plano alimentar personalizado',
-        '2 planilhas de treino',
+        'planilha de treino',
         'Suporte com personal',
-        'Acompanhamento de 2 meses',
       ],
       whatsappMessage: 'Olá, Kenya! Gostaria de saber mais sobre o Plano Dieta + Treino.',
     },
@@ -190,6 +208,14 @@ export default function Services() {
             const Icon = service.icon
             const whatsappUrl = `https://wa.me/${basePhone}?text=${encodeURIComponent(service.whatsappMessage)}`
 
+            const selectedIndex = getSelectedPlanIndex(index)
+            const selectedPlan = service.pricingPlans[selectedIndex]
+            const basePrice = parsePrice(service.pricingPlans[0].price)
+            const selectedPrice = parsePrice(selectedPlan.price)
+            const discount = selectedIndex > 0 && basePrice > 0
+              ? Math.round((1 - selectedPrice / basePrice) * 100)
+              : 0
+
             return (
               <div
                 key={service.title}
@@ -210,22 +236,49 @@ export default function Services() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#7F3240] transition-colors mb-3">{service.title}</h3>
 
-                    {/* Tabela de preços: Mensal / Trimestral / Semestral */}
-                    <div className="space-y-1.5 bg-[#7F3240]/[0.03] rounded-xl p-3 border border-[#7F3240]/10">
-                      {service.pricingPlans.map((plan) => (
-                        <div key={plan.label} className="flex items-baseline justify-between gap-2">
-                          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{plan.label}</span>
-                          <div className="text-right">
-                            <span className="text-sm font-black text-[#7F3240]">
-                              {plan.price}
-                              {plan.suffix && <span className="text-[10px] font-semibold text-gray-500">{plan.suffix}</span>}
-                            </span>
-                            {plan.note && (
-                              <p className="text-[9px] text-gray-400 leading-tight">{plan.note}</p>
-                            )}
-                          </div>
-                        </div>
+                    {/* Seletor de período: Mensal / Trimestral / Semestral */}
+                    <div className="grid grid-cols-3 gap-1 bg-gray-100 rounded-xl p-1 mb-3">
+                      {service.pricingPlans.map((plan, planIdx) => (
+                        <button
+                          key={plan.label}
+                          type="button"
+                          onClick={() =>
+                            setSelectedPlanByService((prev) => ({ ...prev, [index]: planIdx }))
+                          }
+                          aria-pressed={selectedIndex === planIdx}
+                          title={plan.label}
+                          className={`text-center text-[9.5px] font-bold uppercase tracking-tight leading-none py-2 px-0.5 rounded-lg whitespace-nowrap overflow-hidden text-ellipsis transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7F3240] ${
+                            selectedIndex === planIdx
+                              ? 'bg-[#7F3240] text-white shadow-sm'
+                              : 'text-gray-500 hover:text-gray-700'
+                          }`}
+                        >
+                          {periodLabel(plan.label)}
+                        </button>
                       ))}
+                    </div>
+
+                    {/* Preço do período selecionado */}
+                    <div
+                      key={selectedIndex}
+                      className="bg-[#7F3240]/[0.03] rounded-xl p-3.5 border border-[#7F3240]/10 animate-in fade-in slide-in-from-bottom-1 duration-300"
+                    >
+                      <div className="flex items-start justify-between gap-2 flex-wrap">
+                        <div className="flex items-baseline gap-1 whitespace-nowrap">
+                          <span className="text-xl font-black text-[#7F3240] whitespace-nowrap">{selectedPlan.price}</span>
+                          {selectedPlan.suffix && (
+                            <span className="text-[11px] font-semibold text-gray-500 whitespace-nowrap">{selectedPlan.suffix}</span>
+                          )}
+                        </div>
+                        {discount > 0 && (
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full whitespace-nowrap">
+                            Economize {discount}%
+                          </span>
+                        )}
+                      </div>
+                      {selectedPlan.note && (
+                        <p className="text-[10px] text-gray-400 mt-1">{selectedPlan.note}</p>
+                      )}
                     </div>
                   </div>
 
