@@ -574,7 +574,7 @@ export default function Services() {
 
               <div className="text-center bg-[#7F3240]/5 p-8 rounded-3xl border border-[#7F3240]/10">
                 <p className="text-gray-900 font-bold mb-4 italic">Faltam poucos dias para a próxima turma!</p>
-                
+                <a
                   href="https://wa.me/5548998046395?text=Olá Kenya! Gostaria de entrar na lista de espera para o Projeto Bora Secar 21."
                   target="_blank"
                   rel="noopener noreferrer"
