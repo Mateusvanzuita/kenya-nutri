@@ -92,9 +92,13 @@ export default function Services() {
   const mainServices = [
     {
       title: 'Consultoria Online',
-      price: 'R$ 250,00',
       icon: Video,
       highlight: 'Mais popular',
+      pricingPlans: [
+        { label: 'Mensal', price: 'R$ 200,00', suffix: '' },
+        { label: 'Trimestral', price: 'R$ 160,00', suffix: '/mês' },
+        { label: 'Semestral', price: 'R$ 140,00', suffix: '/mês' },
+      ],
       features: [
         'Avaliação por fotos e questionário',
         'Opção de vídeo chamada',
@@ -105,8 +109,12 @@ export default function Services() {
     },
     {
       title: 'Atendimento Presencial',
-      price: 'R$ 300,00',
       icon: MapPin,
+      pricingPlans: [
+        { label: 'Mensal', price: 'R$ 250,00', suffix: '' },
+        { label: 'Trimestral', price: 'R$ 200,00', suffix: '/mês', note: '1 retorno no período' },
+        { label: 'Semestral', price: 'R$ 160,00', suffix: '/mês', note: '2 retornos no período' },
+      ],
       features: [
         'Consulta presencial (São José - SC)',
         'Avaliação física completa',
@@ -117,8 +125,12 @@ export default function Services() {
     },
     {
       title: 'Plano Casal',
-      price: 'R$ 500,00',
       icon: Users,
+      pricingPlans: [
+        { label: 'Mensal', price: 'R$ 440,00', suffix: '', note: 'casal' },
+        { label: 'Trimestral', price: 'R$ 360,00', suffix: '/mês', note: 'casal' },
+        { label: 'Semestral', price: 'R$ 300,00', suffix: '/mês', note: 'casal' },
+      ],
       features: [
         'Consulta conjunta',
         'Avaliação física completa para ambos',
@@ -129,9 +141,13 @@ export default function Services() {
     },
     {
       title: 'Dieta + Treino',
-      price: 'R$ 450,00',
       icon: Dumbbell,
       highlight: 'Completo',
+      pricingPlans: [
+        { label: 'Mensal', price: 'R$ 300,00', suffix: '' },
+        { label: 'Trimestral', price: 'R$ 280,00', suffix: '/mês', note: '1 retorno no período' },
+        { label: 'Semestral', price: 'R$ 260,00', suffix: '/mês', note: '2 retornos no período' },
+      ],
       features: [
         'Consulta presencial e avaliação física',
         'Plano alimentar personalizado',
@@ -147,7 +163,7 @@ export default function Services() {
     {
       title: 'Suporte Ativo',
       icon: MessageCircle,
-      description: 'Suporte por 2 meses para ajustes no plano, esclarecimento de dúvidas e acompanhamento próximo.',
+      description: 'Suporte pelo WhatsApp e por aplicativo próprio para esclarecimento de dúvidas e acompanhamento próximo.',
     },
     {
       title: 'Pagamento Facilitado',
@@ -192,9 +208,24 @@ export default function Services() {
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#7F3240] transition-colors">{service.title}</h3>
-                    <div className="mt-1">
-                      <span className="text-lg font-black text-[#7F3240]">{service.price}</span>
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#7F3240] transition-colors mb-3">{service.title}</h3>
+
+                    {/* Tabela de preços: Mensal / Trimestral / Semestral */}
+                    <div className="space-y-1.5 bg-[#7F3240]/[0.03] rounded-xl p-3 border border-[#7F3240]/10">
+                      {service.pricingPlans.map((plan) => (
+                        <div key={plan.label} className="flex items-baseline justify-between gap-2">
+                          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{plan.label}</span>
+                          <div className="text-right">
+                            <span className="text-sm font-black text-[#7F3240]">
+                              {plan.price}
+                              {plan.suffix && <span className="text-[10px] font-semibold text-gray-500">{plan.suffix}</span>}
+                            </span>
+                            {plan.note && (
+                              <p className="text-[9px] text-gray-400 leading-tight">{plan.note}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
@@ -543,7 +574,7 @@ export default function Services() {
 
               <div className="text-center bg-[#7F3240]/5 p-8 rounded-3xl border border-[#7F3240]/10">
                 <p className="text-gray-900 font-bold mb-4 italic">Faltam poucos dias para a próxima turma!</p>
-                <a
+                
                   href="https://wa.me/5548998046395?text=Olá Kenya! Gostaria de entrar na lista de espera para o Projeto Bora Secar 21."
                   target="_blank"
                   rel="noopener noreferrer"
