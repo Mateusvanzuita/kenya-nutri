@@ -8,16 +8,6 @@ import {
   Leaf, X, ImageIcon, ChevronLeft, ChevronRight, Copy, CheckCheck
 } from 'lucide-react'
 
-// Calcula o desconto percentual de um plano em relação ao preço mensal (base),
-// usado para mostrar o selo "-20%" etc. nos planos Trimestral/Semestral.
-function calcSavings(basePrice: string, price: string): number | null {
-  const parse = (v: string) => parseFloat(v.replace(/[^\d,]/g, '').replace(',', '.'))
-  const base = parse(basePrice)
-  const value = parse(price)
-  if (!base || !value || base === value) return null
-  return Math.round((1 - value / base) * 100)
-}
-
 export default function Services() {
   const basePhone = '5548998046395'
   const sectionRef = useRef<HTMLElement>(null)
@@ -199,7 +189,6 @@ export default function Services() {
           {mainServices.map((service, index) => {
             const Icon = service.icon
             const whatsappUrl = `https://wa.me/${basePhone}?text=${encodeURIComponent(service.whatsappMessage)}`
-            const basePrice = service.pricingPlans[0].price
 
             return (
               <div
@@ -221,59 +210,22 @@ export default function Services() {
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 group-hover:text-[#7F3240] transition-colors mb-3">{service.title}</h3>
 
-                    {/* Tabela de preços — plano Semestral destacado com cor da marca + selo de economia */}
-                    <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-                      {service.pricingPlans.map((plan, i) => {
-                        const savings = i === 0 ? null : calcSavings(basePrice, plan.price)
-                        const isBest = i === service.pricingPlans.length - 1
-
-                        return (
-                          <div
-                            key={plan.label}
-                            className={`flex items-center justify-between gap-2 px-3.5 py-2.5 transition-colors ${
-                              isBest
-                                ? 'bg-[#7F3240]'
-                                : i % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                            } ${i !== 0 ? 'border-t border-gray-100' : ''}`}
-                          >
-                            <div className="flex items-center gap-1.5">
-                              <span className={`text-[10px] font-bold uppercase tracking-wider ${isBest ? 'text-white/80' : 'text-gray-400'}`}>
-                                {plan.label}
-                              </span>
-                              {isBest && (
-                                <span className="text-[8px] font-bold bg-white/25 text-white px-1.5 py-0.5 rounded-full uppercase tracking-wide">
-                                  Melhor preço
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="text-right">
-                              <div className="flex items-baseline gap-1.5 justify-end">
-                                {savings != null && (
-                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
-                                    isBest ? 'bg-white/25 text-white' : 'bg-green-100 text-green-700'
-                                  }`}>
-                                    -{savings}%
-                                  </span>
-                                )}
-                                <span className={`text-base font-black ${isBest ? 'text-white' : 'text-[#7F3240]'}`}>
-                                  {plan.price}
-                                </span>
-                                {plan.suffix && (
-                                  <span className={`text-[10px] font-semibold ${isBest ? 'text-white/70' : 'text-gray-400'}`}>
-                                    {plan.suffix}
-                                  </span>
-                                )}
-                              </div>
-                              {plan.note && (
-                                <p className={`text-[9px] leading-tight ${isBest ? 'text-white/70' : 'text-gray-400'}`}>
-                                  {plan.note}
-                                </p>
-                              )}
-                            </div>
+                    {/* Tabela de preços: Mensal / Trimestral / Semestral */}
+                    <div className="space-y-1.5 bg-[#7F3240]/[0.03] rounded-xl p-3 border border-[#7F3240]/10">
+                      {service.pricingPlans.map((plan) => (
+                        <div key={plan.label} className="flex items-baseline justify-between gap-2">
+                          <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{plan.label}</span>
+                          <div className="text-right">
+                            <span className="text-sm font-black text-[#7F3240]">
+                              {plan.price}
+                              {plan.suffix && <span className="text-[10px] font-semibold text-gray-500">{plan.suffix}</span>}
+                            </span>
+                            {plan.note && (
+                              <p className="text-[9px] text-gray-400 leading-tight">{plan.note}</p>
+                            )}
                           </div>
-                        )
-                      })}
+                        </div>
+                      ))}
                     </div>
                   </div>
 
